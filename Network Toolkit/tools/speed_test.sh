@@ -1,48 +1,36 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 speed_test() {
-    clear
-    echo -e "${BLUE}=== Teste de Velocidade ===${NC}"
-    echo
-    echo "1. Teste de velocidade simples (curl)"
-    echo "2. Teste de velocidade completo (speedtest-cli)"
-    echo "3. Voltar ao menu principal"
-    echo
-    read -p "Selecione uma opção [1-3]: " speed_option
-    
-    case $speed_option in
+    local choice answer
+    clear 2>/dev/null || true
+    printf '%s=== Speed test ===%s\n\n' "$BLUE" "$NC"
+    printf '%s\n' '1. Quick download test with curl' '2. Full test with speedtest-cli' '3. Return to the main menu'
+    read -r -p "Select an option [1-3]: " choice || return
+
+    case "$choice" in
         1)
-            echo -e "${YELLOW}[*] Teste de velocidade simples...${NC}"
-            if $IS_TERMUX; then
-                curl -o /dev/null http://speedtest.wdc01.softlayer.com/downloads/test10.zip
-            else
-                curl -o /dev/null http://speedtest.tele2.net/10MB.zip
-            fi
+            printf '%s[*] Downloading a 10 MB test file...%s\n' "$YELLOW" "$NC"
+            curl --fail --location --silent --show-error --output /dev/null \
+                --write-out 'Downloaded %{size_download} bytes in %{time_total} seconds\n' \
+                'https://speed.cloudflare.com/__down?bytes=10000000'
             ;;
         2)
-            if ! command -v speedtest-cli &> /dev/null; then
-                echo -e "${RED}[!] speedtest-cli não instalado. Instalando...${NC}"
-                if $IS_TERMUX; then
-                    pip install speedtest-cli
+            if ! command -v speedtest-cli >/dev/null 2>&1; then
+                if "$IS_TERMUX"; then
+                    printf '%s[!] Install Python and speedtest-cli with: pkg install python && python -m pip install speedtest-cli%s\n' "$YELLOW" "$NC"
                 else
-                    sudo apt-get install -y speedtest-cli
+                    printf '%s[!] Install speedtest-cli with: sudo apt-get install speedtest-cli%s\n' "$YELLOW" "$NC"
                 fi
+                pause_for_menu
+                return
             fi
-            echo -e "${YELLOW}[*] Executando teste de velocidade completo...${NC}"
+            printf '%s[*] Running speedtest-cli...%s\n' "$YELLOW" "$NC"
             speedtest-cli
             ;;
-        3)
-            main_menu
-            ;;
-        *)
-            echo -e "${RED}[!] Opção inválida!${NC}"
-            sleep 1
-            speed_test
-            ;;
+        3) return 0 ;;
+        *) printf '%s[!] Invalid option.%s\n' "$RED" "$NC" ;;
     esac
-    
-    read -p "Pressione Enter para continuar..."
-    main_menu
+    pause_for_menu
 }
 
 speed_test
