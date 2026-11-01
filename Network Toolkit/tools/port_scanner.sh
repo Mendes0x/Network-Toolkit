@@ -3,16 +3,16 @@
 valid_port_list() {
     local part start end number
     local -a parts
-    [[ "$1" =~ ^[0-9,-]+$$ ]] || return 1
+    [[ "$1" =~ ^[0-9,-]+$ ]] || return 1
     IFS=',' read -r -a parts <<< "$1"
     for part in "${parts[@]}"; do
-        if [[ "$part" =~ ^([0-9]{1,5})-([0-9]{1,5})$$ ]]; then
+        if [[ "$part" =~ ^([0-9]{1,5})-([0-9]{1,5})$ ]]; then
             start="${BASH_REMATCH[1]}"
             end="${BASH_REMATCH[2]}"
-            ((10${start} >= 1 && 10${end} <= 65535 && 10${start} <= 10${end})) || return 1
-        elif [[ "$part" =~ ^[0-9]{1,5}$$ ]]; then
+            ((10#${start} >= 1 && 10#${end} <= 65535 && 10#${start} <= 10#${end})) || return 1
+        elif [[ "$part" =~ ^[0-9]{1,5}$ ]]; then
             number="$part"
-            ((10${number} >= 1 && 10${number} <= 65535)) || return 1
+            ((10#${number} >= 1 && 10#${number} <= 65535)) || return 1
         else
             return 1
         fi
