@@ -43,7 +43,7 @@ install_dependencies() {
         fi
     done
 
-    if (${#missing_packages[@]} == 0)); then
+    if (( ${#missing_packages[@]} == 0 )); then
         return 0
     fi
 
