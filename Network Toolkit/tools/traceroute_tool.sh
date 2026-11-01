@@ -1,27 +1,22 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 traceroute_tool() {
-    clear
-    echo -e "${BLUE}=== Traceroute ===${NC}"
-    echo
-    read -p "Digite o endereço IP ou hostname para traçar a rota: " target
-    
-    if [ -z "$target" ]; then
-        echo -e "${RED}[!] Nenhum alvo especificado${NC}"
-        sleep 1
-        main_menu
-    fi
-    
-    echo -e "${YELLOW}[*] Executando traceroute para $target...${NC}"
-    
-    if $IS_TERMUX; then
-        traceroute $target
+    local target
+    clear 2>/dev/null || true
+    printf '%s=== Traceroute ===%s\n\n' "$BLUE" "$NC"
+    read -r -p "Enter an IP address or hostname: " target || return
+
+    if [[ -z "$target" || "$target" == -* ]]; then
+        printf '%s[!] Enter a valid IP address or hostname.%s\n' "$RED" "$NC"
     else
-        traceroute -I $target  # Usa ICMP para traceroute no Linux
+        printf '%s[*] Tracing the route to %s...%s\n' "$YELLOW" "$target" "$NC"
+        if "$IS_TERMUX"; then
+            traceroute "$target"
+        else
+            traceroute -I "$target"
+        fi
     fi
-    
-    read -p "Pressione Enter para continuar..."
-    main_menu
+    pause_for_menu
 }
 
 traceroute_tool
