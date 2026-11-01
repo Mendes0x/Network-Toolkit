@@ -1,84 +1,96 @@
-
 # Network Toolkit
 
-## ⚠️ Disclaimer
-**This tool is for educational and legitimate network administration purposes only.**  
-The developer is **not responsible** for any misuse of this software. Unauthorized scanning of networks or systems without explicit permission may violate laws and regulations. Users are solely responsible for ensuring their activities comply with all applicable laws.
+A small, menu-driven collection of network diagnostics for **Termux (Android)** and **Debian/Ubuntu-based Linux**.
 
-## 📡 About the Project
+> Use these tools only on devices and networks you own or are explicitly authorized to test. Port scans and Wi-Fi scans can affect other systems and may be restricted by local policies.
 
-**Network Toolkit** is a collection of networking tools for diagnostics and analysis, working on both **Termux (Android)** and traditional **Linux terminals**. Ideal for network administrators, pentesters, and IT enthusiasts.
+![Network Toolkit main menu](Network%20Toolkit/image.png)
 
-<img src="Network Toolkit/image.png" alt="Menu do Programa" width="800">
+## Features
 
-## ✨ Features
+| Tool | What it does | Termux | Linux |
+| --- | --- | :---: | :---: |
+| **Ping** | Sends four packets to check reachability | ✅ | ✅ |
+| **Port scanner** | Scans common ports, all TCP ports, or a port range with Nmap | ✅ | ✅ |
+| **Speed test** | Downloads a test file with \`curl\` or runs \`speedtest-cli\` | ✅ | ✅ |
+| **Traceroute** | Displays the route to a host | ✅ | ✅ |
+| **Wi-Fi analyzer** | Lists nearby networks or shows connection details | — | ✅ |
+| **Internet check** | Checks connectivity by pinging a public DNS address | ✅ | ✅ |
+| **Network information** | Shows interface addresses, gateway, DNS, and routes | ✅ | ✅ |
 
-| Tool | Description | Termux | Linux |
-|------|------------|--------|-------|
-| **Ping** | Basic connectivity test | ✅ | ✅ |
-| **Port Scanner** | Port scanning with nmap | ✅ | ✅ |
-| **Speed Test** | Connection speed test | ✅ | ✅ |
-| **Traceroute** | Route tracing | ✅ | ✅ |
-| **WiFi Analyzer** | Wireless network analysis | ❌ | ✅ |
-| **Network Info** | Detailed network information | ✅ | ✅ |
+The Wi-Fi analyzer is unavailable in Termux. On Linux, Wi-Fi scanning depends on your wireless adapter, driver, and system permissions.
 
-## 🚀 Installation
+## Requirements
+
+- Bash and Git
+- An internet connection for installation and speed tests
+- **Termux:** packages are managed with \`pkg\`
+- **Linux:** Debian or Ubuntu, \`sudo\`, and \`apt-get\` (the startup script uses \`apt-get\`)
+- **Linux Wi-Fi details:** a supported wireless adapter; some features may also need \`wireless-tools\`
+
+On startup, the script checks for and attempts to install its dependencies. You can also install them manually using the commands below.
+
+## Installation
 
 ### Termux (Android)
-```bash
-pkg update && pkg upgrade
-pkg install git nmap curl
+
+Install Termux from a trusted source, then run:
+
+\`\`\`bash
+pkg update
+pkg install git
 git clone https://github.com/renegadothedev/Network-Toolkit.git
-cd Network-Toolkit
+cd "Network-Toolkit/Network Toolkit"
 chmod +x toolkit.sh
 ./toolkit.sh
-```
+\`\`\`
 
-### Linux
-```bash
-sudo apt update && sudo apt upgrade
-sudo apt install git nmap curl traceroute iw
+### Debian or Ubuntu Linux
+
+\`\`\`bash
+sudo apt update
+sudo apt install git curl nmap iproute2 traceroute speedtest-cli iw wireless-tools
 git clone https://github.com/renegadothedev/Network-Toolkit.git
-cd Network-Toolkit
+cd "Network-Toolkit/Network Toolkit"
 chmod +x toolkit.sh
 ./toolkit.sh
-```
+\`\`\`
 
-## 🖥️ Prerequisites
-- Python 3.x (for speedtest-cli on Linux)
-- Root permissions (for WiFi analysis on Linux)
+The script may request your password through \`sudo\` when installing missing packages. Review installation prompts before accepting them. Other Linux distributions are not configured by the current installer; install equivalent dependencies with your distribution's package manager.
 
-## 🛠️ Project Structure
-```
+## Using the tools
+
+Start \`toolkit.sh\` and choose an option from the menu. The tools prompt for a hostname, IP address, or port range when needed. For example, use the port scanner only with a target you are authorized to assess. Press **Ctrl+C** to stop a running command.
+
+## Project structure
+
+\`\`\`text
 Network-Toolkit/
 ├── LICENSE
-├── toolkit.sh          (Main script)
-└── tools/
-    ├── ping_tool.sh
-    ├── port_scanner.sh
-    ├── speed_test.sh
-    ├── traceroute_tool.sh
-    └── wifi_analyzer.sh
-```
+├── README.md
+└── Network Toolkit/
+    ├── image.png
+    ├── toolkit.sh
+    └── tools/
+        ├── ping_tool.sh
+        ├── port_scanner.sh
+        ├── speed_test.sh
+        ├── traceroute_tool.sh
+        └── wifi_analyzer.sh
+\`\`\`
 
-## 📝 How to Contribute
-1. Fork the project
-2. Create your branch (`git checkout -b feature/new-tool`)
-3. Commit your changes (`git commit -m 'Add new feature'`)
-4. Push to the branch (`git push origin feature/new-tool`)
-5. Open a Pull Request
+## Contributing
 
-## 📜 License
-Distributed under the MIT License. See `LICENSE` for more information.
+1. Fork the repository.
+2. Create a branch: \`git checkout -b feature/new-tool\`
+3. Make your changes and commit them: \`git commit -m "Add new feature"\`
+4. Push your branch: \`git push origin feature/new-tool\`
+5. Open a pull request.
 
-## 📧 Contact
-Renegade The Dev - [@renegadethedev](https://github.com/renegadothedev) - joaovitorbds752@gmail.com
+## License
 
----
+This project is distributed under the MIT License. See [LICENSE](LICENSE).
 
-**Tip**: For full functionality on Linux, install all recommended packages:  
-`sudo apt install nmap curl traceroute speedtest-cli iw wireless-tools`  
+## Contact
 
-[![Termux Demo](https://img.shields.io/badge/Demo-Termux-brightgreen)](https://example.com/demo) 
-[![Linux Demo](https://img.shields.io/badge/Demo-Linux-blue)](https://example.com/demo)  
-
+**Renegade The Dev** — [@renegadethedev](https://github.com/renegadethedev) · [joaovitorbds752@gmail.com](mailto:joaovitorbds752@gmail.com)
